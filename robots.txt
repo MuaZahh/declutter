@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://declutter-samaha.vercel.app/sitemap.xml
+Sitemap: https://www.declutter.help/sitemap.xml
 
 # Block access to sensitive areas (if any in future)
 # Disallow: /admin/
