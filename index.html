@@ -233,8 +233,11 @@
         }
 
         @media (max-width: 768px) {
-            .bg-shape {
-                display: none;
+            .bg-shape[style*="right: -"] {
+                right: 0 !important;
+            }
+            .bg-shape[style*="left: -"] {
+                left: 0 !important;
             }
         }
 
