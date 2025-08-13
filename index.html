@@ -233,6 +233,19 @@
         }
 
         @media (max-width: 768px) {
+            /* Hide shapes that interfere with important content areas */
+            .bg-shape[style*="top: 100px"],
+            .bg-shape[style*="top: 200px"], 
+            .bg-shape[style*="top: 600px"],
+            .bg-shape[style*="top: 1400px"],
+            .bg-shape[style*="top: 1600px"],
+            .bg-shape[style*="top: 2400px"],
+            .bg-shape[style*="top: 2600px"],
+            .bg-shape[style*="top: 3400px"] {
+                display: none;
+            }
+            
+            /* Reposition remaining shapes to stay within viewport */
             .bg-shape[style*="right: -"] {
                 right: 0 !important;
             }
