@@ -637,7 +637,7 @@
 
         .services-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: clamp(1rem, 3vw, 1.5rem);
             margin-bottom: clamp(2rem, 8vw, 4rem);
         }
@@ -722,7 +722,7 @@
             box-shadow: 0 10px 30px rgba(96, 56, 19, 0.1);
             position: relative;
             z-index: 10;
-            max-width: 800px;
+            width: 80%;
             margin: 0 auto;
         }
 
@@ -879,6 +879,10 @@
             .credentials-grid-hero {
                 grid-template-columns: 1fr;
                 gap: 0.8rem;
+            }
+
+            .services-list {
+                grid-template-columns: 1fr;
             }
 
             .specialty-pills {
