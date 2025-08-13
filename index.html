@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    <meta name="mobile-web-app-capable" content="no">
     <title>Declutter - Samaha Abdulsalam | Psychological Counselor</title>
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
     <style>
@@ -105,7 +107,7 @@
             top: 0;
             width: 100%;
             background: #ffffff;
-            padding: 1.2rem 2rem;
+            padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1rem, 4vw, 2rem);
             box-shadow: 0 2px 10px rgba(255, 195, 172, 0.2);
             border-bottom: 1px solid rgba(255, 195, 172, 0.3);
             z-index: 1000;
@@ -122,17 +124,18 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: clamp(0.5rem, 2vw, 1rem);
         }
 
         .logo {
-            width: 10%;
-/*             height: 80px; */
+            width: clamp(60px, 10vw, 80px);
+            height: auto;
             object-fit: contain;
+            max-height: 60px;
         }
 
         .brand-name {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             font-weight: bold;
             color: #2c2c2c;
             letter-spacing: 1px;
@@ -142,6 +145,38 @@
             display: flex;
             list-style: none;
             gap: 2rem;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            min-height: 44px;
+            min-width: 44px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #2c2c2c;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
         }
 
         .nav-links a {
@@ -158,7 +193,7 @@
         /* Hero Section */
         .hero {
             background: #ffffff;
-            padding: 150px 2rem 100px;
+            padding: clamp(120px, 20vw, 150px) clamp(1rem, 4vw, 2rem) clamp(80px, 15vw, 100px);
             text-align: center;
             border-bottom: 1px solid rgba(255, 195, 172, 0.2);
             position: relative;
@@ -182,11 +217,11 @@
 
         .hero-qualifications {
             background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
+            padding: clamp(1.5rem, 5vw, 2.5rem);
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(255, 195, 172, 0.2);
             border: 2px solid rgba(255, 195, 172, 0.3);
-            margin-top: 4rem;
+            margin-top: clamp(2rem, 8vw, 4rem);
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
@@ -290,20 +325,20 @@
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: clamp(2rem, 6vw, 3rem);
             margin-bottom: 0.5rem;
             color: #2c2c2c;
         }
 
         .hero h2 {
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             margin-bottom: 1rem;
             color: #2c2c2c;
             opacity: 0.8;
         }
 
         .tagline {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             margin-bottom: 2rem;
             color: #2c2c2c;
             font-style: italic;
@@ -319,12 +354,15 @@
 
         .pill {
             background: rgba(255, 255, 255, 0.9);
-            padding: 0.5rem 1rem;
+            padding: clamp(0.4rem, 2vw, 0.5rem) clamp(0.8rem, 3vw, 1rem);
             border-radius: 25px;
             color: #2c2c2c;
             font-weight: 500;
             box-shadow: 0 2px 10px rgba(96, 56, 19, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
         }
 
         .pill:hover {
@@ -334,7 +372,7 @@
 
         /* About Section */
         .about {
-            padding: 100px 2rem;
+            padding: clamp(60px, 15vw, 100px) clamp(1rem, 4vw, 2rem);
             background: #f8f9fa;
         }
 
@@ -345,8 +383,8 @@
 
         .credentials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1rem, 4vw, 2rem);
             max-width: 900px;
             margin: 0 auto;
         }
@@ -366,7 +404,7 @@
         }
 
         .approach-section {
-            padding: 100px 2rem;
+            padding: clamp(60px, 15vw, 100px) clamp(1rem, 4vw, 2rem);
             background: #ffffff;
         }
 
@@ -377,7 +415,7 @@
 
         .approach-content {
             background: rgba(255, 255, 255, 0.9);
-            padding: 3rem;
+            padding: clamp(2rem, 6vw, 3rem);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(96, 56, 19, 0.1);
             position: relative;
@@ -389,7 +427,7 @@
 
         /* Services Section */
         .services {
-            padding: 100px 2rem;
+            padding: clamp(60px, 15vw, 100px) clamp(1rem, 4vw, 2rem);
             background: #ffffff;
         }
 
@@ -399,17 +437,19 @@
             text-align: center;
         }
 
-        .services h2 {
-            font-size: 2.5rem;
+        .services h2,
+        .contact h2,
+        h2 {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             margin-bottom: 3rem;
             color: #2c2c2c;
         }
 
         .services-list {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: clamp(1rem, 3vw, 1.5rem);
+            margin-bottom: clamp(2rem, 8vw, 4rem);
         }
 
         .service-item {
@@ -430,9 +470,9 @@
 
         .location-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1.5rem, 4vw, 2rem);
+            margin-top: clamp(2rem, 6vw, 3rem);
         }
 
         .location-card {
@@ -468,7 +508,7 @@
 
         /* Contact Section */
         .contact {
-            padding: 100px 2rem;
+            padding: clamp(60px, 15vw, 100px) clamp(1rem, 4vw, 2rem);
             background: #f8f9fa;
         }
 
@@ -477,24 +517,22 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 3rem;
+            gap: clamp(2rem, 6vw, 3rem);
         }
 
         .contact h2 {
-            font-size: 2.5rem;
             text-align: center;
             margin-bottom: 2rem;
-            color: #2c2c2c;
         }
 
         .contact-form {
             background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
+            padding: clamp(1.5rem, 4vw, 2rem);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(96, 56, 19, 0.1);
             position: relative;
             z-index: 10;
-            width: 80%;
+            width: min(90%, 600px);
             margin: 0 auto;
         }
 
@@ -513,12 +551,13 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 0.75rem;
+            padding: clamp(0.6rem, 2vw, 0.75rem);
             border: 2px solid #e9ecef;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             transition: border-color 0.3s ease;
             font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+            min-height: 44px;
         }
 
         .phone-input-group {
@@ -550,13 +589,14 @@
             background: #e0e0e0;
             color: #888888;
             border: none;
-            padding: 1rem 2rem;
+            padding: clamp(0.8rem, 3vw, 1rem) clamp(1.5rem, 4vw, 2rem);
             border-radius: 25px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
             font-weight: 600;
             cursor: not-allowed;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             width: 100%;
+            min-height: 44px;
         }
 
         .submit-btn.active {
@@ -570,13 +610,13 @@
 
         .social-media {
             background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
+            padding: clamp(1.5rem, 4vw, 2rem);
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(96, 56, 19, 0.1);
             text-align: center;
             position: relative;
             z-index: 10;
-            width: 80%;
+            width: min(90%, 600px);
             margin: 0 auto;
         }
 
@@ -591,15 +631,17 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 60px;
-            height: 60px;
+            width: clamp(50px, 12vw, 60px);
+            height: clamp(50px, 12vw, 60px);
             background: #ff9d7a;
             border-radius: 50%;
             text-decoration: none;
             color: #ffffff;
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
             box-shadow: 0 5px 15px rgba(255, 195, 172, 0.4);
+            min-height: 44px;
+            min-width: 44px;
         }
 
         .social-icon:hover {
@@ -618,46 +660,57 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
+            .mobile-menu-toggle {
+                display: flex;
             }
 
             .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #ffffff;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
                 gap: 1rem;
             }
 
-            .hero h1 {
-                font-size: 2rem;
+            .nav-links.active {
+                display: flex;
             }
 
-            .hero h2 {
-                font-size: 1.2rem;
+            .nav-container {
+                position: relative;
             }
+
 
             .credentials-grid-hero {
                 grid-template-columns: 1fr;
-            }
-
-            .services-list {
-                grid-template-columns: 1fr;
+                gap: 0.8rem;
             }
 
             .specialty-pills {
                 gap: 0.5rem;
             }
 
-            .pill {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.9rem;
-            }
 
-            .location-cards {
-                grid-template-columns: 1fr;
-            }
         }
 
         @media (max-width: 480px) {
+            .logo {
+                width: clamp(50px, 15vw, 70px);
+                max-height: 50px;
+            }
+            
+            .logo-container {
+                gap: 0.5rem;
+            }
+            
+            .brand-name {
+                font-size: clamp(1rem, 4vw, 1.2rem);
+            }
             .header {
                 padding: 0.5rem 1rem;
             }
@@ -666,9 +719,6 @@
                 padding: 120px 1rem 80px;
             }
 
-            .hero h1 {
-                font-size: 1.8rem;
-            }
 
             .services,
             .about,
@@ -677,13 +727,7 @@
             }
 
             .social-icons {
-                gap: 0.5rem;
-            }
-
-            .social-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
+                gap: clamp(0.5rem, 2vw, 1rem);
             }
         }
     </style>
@@ -696,10 +740,15 @@
                 <img src="declutter-logo2.png" alt="Declutter Logo" class="logo">
             </div>
             <nav>
-                <ul class="nav-links">
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#about" onclick="closeMobileMenu()">About</a></li>
+                    <li><a href="#services" onclick="closeMobileMenu()">Services</a></li>
+                    <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -986,6 +1035,35 @@
         requiredFields.forEach(field => {
             field.addEventListener('input', checkFormValidity);
             field.addEventListener('change', checkFormValidity);
+        });
+
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            navLinks.classList.remove('active');
+            menuToggle.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navLinks = document.getElementById('navLinks');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            const navContainer = document.querySelector('.nav-container');
+            
+            if (!navContainer.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
         });
 
         // Country code search functionality
