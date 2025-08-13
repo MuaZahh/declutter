@@ -236,8 +236,29 @@
         }
 
         @media (max-width: 768px) {
-            .bg-shape {
+            /* Hide shapes that cluster near important content */
+            .bg-shape[style*="top: 100px"],
+            .bg-shape[style*="top: 200px"], 
+            .bg-shape[style*="top: 1200px"],
+            .bg-shape[style*="top: 1400px"],
+            .bg-shape[style*="top: 1600px"],
+            .bg-shape[style*="top: 2200px"],
+            .bg-shape[style*="top: 2400px"],
+            .bg-shape[style*="top: 3200px"] {
                 display: none;
+            }
+            
+            /* Reposition remaining shapes to stay within viewport */
+            .bg-shape[style*="right: -"] {
+                right: 5% !important;
+            }
+            .bg-shape[style*="left: -"] {
+                left: 5% !important;
+            }
+            
+            /* Make remaining shapes smaller on mobile */
+            .bg-shape {
+                transform: scale(0.6);
             }
         }
 
