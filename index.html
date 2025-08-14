@@ -494,6 +494,44 @@
             font-weight: 400;
             line-height: 1.2;
         }
+        
+        .credential-item-hero {
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .credential-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1000;
+            margin-bottom: 0.5rem;
+        }
+        
+        .credential-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .credential-item-hero:hover .credential-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
 
         .shape {
             position: absolute;
@@ -1037,6 +1075,7 @@
                             <span class="credential-title">BSc in Psychology</span>
                             <span class="credential-subtitle">Lincoln University College, September 2024</span>
                         </div>
+                        <div class="credential-tooltip">Bachelor's degree specializing in Clinical Psychology</div>
                     </div>
                     <div class="credential-item-hero">
                         <span class="checkmark">✓</span>
@@ -1044,6 +1083,7 @@
                             <span class="credential-title">NLP Master Practitioner</span>
                             <span class="credential-subtitle">International Board of Neuro Linguistic Programming, Canada, March 2023</span>
                         </div>
+                        <div class="credential-tooltip">Advanced certification in Neuro-Linguistic Programming techniques</div>
                     </div>
                     <div class="credential-item-hero">
                         <span class="checkmark">✓</span>
@@ -1051,6 +1091,7 @@
                             <span class="credential-title">Master Diploma in Counselling & Coaching</span>
                             <span class="credential-subtitle">National Institute of Psychology and Research, June 2022</span>
                         </div>
+                        <div class="credential-tooltip">Advanced training in therapeutic counseling and life coaching</div>
                     </div>
                     <div class="credential-item-hero">
                         <span class="checkmark">✓</span>
@@ -1058,6 +1099,7 @@
                             <span class="credential-title">Diploma in Psychotherapy</span>
                             <span class="credential-subtitle">Oxford Lanka Campus, February 2022</span>
                         </div>
+                        <div class="credential-tooltip">Specialized training in psychotherapeutic interventions</div>
                     </div>
                     <div class="credential-item-hero">
                         <span class="checkmark">✓</span>
@@ -1065,6 +1107,7 @@
                             <span class="credential-title">Diploma in Counselling Psychology</span>
                             <span class="credential-subtitle">Oxford Lanka Campus, May 2021</span>
                         </div>
+                        <div class="credential-tooltip">Foundation training in psychological counseling methods</div>
                     </div>
                     <div class="credential-item-hero">
                         <span class="checkmark">✓</span>
@@ -1072,6 +1115,7 @@
                             <span class="credential-title">BSc in Computer Science</span>
                             <span class="credential-subtitle">Eastern Connecticut State University, May 1994</span>
                         </div>
+                        <div class="credential-tooltip">Bachelor's degree in Computer Science and Programming</div>
                     </div>
                 </div>
             </div>
