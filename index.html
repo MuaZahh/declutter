@@ -889,9 +889,11 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .contact-form {
-                max-width: 800px;
-                width: 95%;
+            .contact-form,
+            .social-media {
+                max-width: none;
+                width: calc(100% - 2rem);
+                margin: 0 1rem;
             }
             
             .mobile-menu-toggle {
