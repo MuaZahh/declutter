@@ -835,18 +835,17 @@
         }
 
         /* Form Validation Styles */
-        .form-group.error input,
-        .form-group.error textarea,
-        .form-group.error select {
-            border-color: #dc3545;
-            background-color: #fff5f5;
+        .form-group input.valid,
+        .form-group textarea.valid,
+        .form-group select.valid {
+            border-color: #28a745;
         }
 
-        .form-group.success input,
-        .form-group.success textarea,
-        .form-group.success select {
-            border-color: #28a745 !important;
-            background-color: transparent !important;
+        .form-group input.invalid,
+        .form-group textarea.invalid,
+        .form-group select.invalid {
+            border-color: #dc3545;
+            background-color: #fff5f5;
         }
 
         .error-message {
@@ -1492,175 +1491,114 @@
     
 
     <script>
-        // Enhanced Form Validation
+        // Simple and Clean Form Validation
         const form = document.getElementById('contactForm');
         const submitBtn = document.getElementById('submitBtn');
         const loadingSpinner = document.getElementById('loadingSpinner');
         const formSuccess = document.getElementById('formSuccess');
         
-        // Validation rules
+        // Simple validation rules
         const validationRules = {
-            fullName: {
-                required: true,
-                minLength: 2,
-                maxLength: 100,
-                pattern: /^[a-zA-Z\s\u00C0-\u017F]+$/,
-                message: 'Please enter a valid name (letters and spaces only)'
-            },
-            age: {
-                required: true,
-                min: 13,
-                max: 120,
-                message: 'Age must be between 13 and 120'
-            },
-            residence: {
-                required: true,
-                minLength: 2,
-                maxLength: 100,
-                message: 'Please enter your place of residence'
-            },
-            occupation: {
-                maxLength: 100,
-                message: 'Occupation cannot exceed 100 characters'
-            },
-            issue: {
-                required: true,
-                minLength: 10,
-                maxLength: 1000,
-                message: 'Please describe your concern (10-1000 characters)'
-            },
-            countryCode: {
-                required: true,
-                message: 'Please select a country code'
-            },
-            phone: {
-                required: true,
-                pattern: /^[\d\s\-\(\)\.]+$/,
-                minLength: 7,
-                maxLength: 15,
-                message: 'Please enter a valid phone number'
-            }
+            fullName: { required: true, minLength: 2, maxLength: 100, pattern: /^[a-zA-Z\s\u00C0-\u017F]+$/ },
+            age: { required: true, min: 13, max: 120 },
+            residence: { required: true, minLength: 2, maxLength: 100 },
+            occupation: { maxLength: 100 },
+            issue: { required: true, minLength: 10, maxLength: 1000 },
+            countryCode: { required: true },
+            phone: { required: true, pattern: /^[\d\s\-\(\)\.]+$/, minLength: 7, maxLength: 15 }
         };
 
-        // Validate individual field
-        function validateField(fieldName, value) {
+        // Validate a single field
+        function isFieldValid(fieldName, value) {
             const rules = validationRules[fieldName];
-            if (!rules) return { isValid: true, message: '' };
+            if (!rules) return true;
 
             // Required check
-            if (rules.required && (!value || value.trim() === '')) {
-                return { isValid: false, message: 'This field is required' };
-            }
-
+            if (rules.required && (!value || value.trim() === '')) return false;
+            
             // Skip other checks if field is empty and not required
-            if (!value || value.trim() === '') {
-                return { isValid: true, message: '' };
-            }
+            if (!rules.required && (!value || value.trim() === '')) return true;
 
             // Length checks
-            if (rules.minLength && value.length < rules.minLength) {
-                return { isValid: false, message: `Minimum ${rules.minLength} characters required` };
-            }
-            if (rules.maxLength && value.length > rules.maxLength) {
-                return { isValid: false, message: `Maximum ${rules.maxLength} characters allowed` };
-            }
+            if (rules.minLength && value.length < rules.minLength) return false;
+            if (rules.maxLength && value.length > rules.maxLength) return false;
 
             // Number range checks
-            if (rules.min !== undefined && parseInt(value) < rules.min) {
-                return { isValid: false, message: rules.message };
-            }
-            if (rules.max !== undefined && parseInt(value) > rules.max) {
-                return { isValid: false, message: rules.message };
-            }
+            if (rules.min !== undefined && parseInt(value) < rules.min) return false;
+            if (rules.max !== undefined && parseInt(value) > rules.max) return false;
 
             // Pattern checks
+            if (rules.pattern && !rules.pattern.test(value)) return false;
+
+            return true;
+        }
+
+        // Get error message for field
+        function getErrorMessage(fieldName, value) {
+            const rules = validationRules[fieldName];
+            if (!rules) return '';
+
+            if (rules.required && (!value || value.trim() === '')) return 'This field is required';
+            if (rules.minLength && value.length < rules.minLength) return `Minimum ${rules.minLength} characters required`;
+            if (rules.maxLength && value.length > rules.maxLength) return `Maximum ${rules.maxLength} characters allowed`;
+            if (rules.min !== undefined && parseInt(value) < rules.min) return `Age must be between ${rules.min} and ${rules.max}`;
+            if (rules.max !== undefined && parseInt(value) > rules.max) return `Age must be between ${rules.min} and ${rules.max}`;
             if (rules.pattern && !rules.pattern.test(value)) {
-                return { isValid: false, message: rules.message };
+                if (fieldName === 'fullName') return 'Please enter a valid name (letters and spaces only)';
+                if (fieldName === 'phone') return 'Please enter a valid phone number';
             }
-
-            return { isValid: true, message: '' };
+            return '';
         }
 
-        // Show/hide error message
-        function showError(fieldName, message) {
-            const formGroup = document.getElementById(fieldName).closest('.form-group');
-            const errorElement = document.getElementById(fieldName + '-error');
+        // Update field appearance
+        function updateFieldAppearance(field, isValid, errorMessage = '') {
+            const errorElement = document.getElementById(field.name + '-error');
             
-            formGroup.classList.remove('success');
-            formGroup.classList.add('error');
-            errorElement.textContent = message;
-            errorElement.classList.add('show');
-        }
-
-        function showSuccess(fieldName) {
-            const formGroup = document.getElementById(fieldName).closest('.form-group');
-            const errorElement = document.getElementById(fieldName + '-error');
+            // Remove all validation classes first
+            field.classList.remove('valid', 'invalid');
             
-            formGroup.classList.remove('error');
-            formGroup.classList.add('success');
-            errorElement.classList.remove('show');
+            if (field.value.trim() === '') {
+                // Empty field - no styling
+                if (errorElement) errorElement.classList.remove('show');
+            } else if (isValid) {
+                // Valid field - green border only
+                field.classList.add('valid');
+                if (errorElement) errorElement.classList.remove('show');
+            } else {
+                // Invalid field - red border and error message
+                field.classList.add('invalid');
+                if (errorElement) {
+                    errorElement.textContent = errorMessage;
+                    errorElement.classList.add('show');
+                }
+            }
         }
 
-        function clearValidation(fieldName) {
-            const formGroup = document.getElementById(fieldName).closest('.form-group');
-            const errorElement = document.getElementById(fieldName + '-error');
-            
-            formGroup.classList.remove('error', 'success');
-            errorElement.classList.remove('show');
-        }
-
-        // Real-time validation
-        function handleFieldValidation(event) {
+        // Handle field validation
+        function validateFieldOnEvent(event) {
             const field = event.target;
             const fieldName = field.name;
             const value = field.value;
 
-            // Special handling for phone fields - both country code and phone number must be filled
+            // For phone fields, validate both together
             if (fieldName === 'countryCode' || fieldName === 'phone') {
-                const countryCode = document.getElementById('countryCode').value;
-                const phoneNumber = document.getElementById('phone').value;
-                
-                if (fieldName === 'countryCode') {
-                    const validation = validateField(fieldName, value);
-                    if (!validation.isValid) {
-                        showError(fieldName, validation.message);
-                    } else if (value.trim() !== '' && phoneNumber.trim() !== '') {
-                        showSuccess(fieldName);
-                        // Also validate phone field if both are filled
-                        const phoneValidation = validateField('phone', phoneNumber);
-                        if (phoneValidation.isValid) {
-                            showSuccess('phone');
-                        }
-                    } else if (value.trim() !== '') {
-                        clearValidation(fieldName);
-                    } else {
-                        clearValidation(fieldName);
-                    }
-                } else if (fieldName === 'phone') {
-                    const validation = validateField(fieldName, value);
-                    if (!validation.isValid) {
-                        showError(fieldName, validation.message);
-                    } else if (value.trim() !== '' && countryCode.trim() !== '') {
-                        showSuccess(fieldName);
-                        // Also show success for country code if both are filled
-                        showSuccess('countryCode');
-                    } else if (value.trim() !== '') {
-                        clearValidation(fieldName);
-                    } else {
-                        clearValidation(fieldName);
-                    }
-                }
+                const countryField = document.getElementById('countryCode');
+                const phoneField = document.getElementById('phone');
+                const countryValue = countryField.value;
+                const phoneValue = phoneField.value;
+
+                // Validate country code
+                const countryValid = isFieldValid('countryCode', countryValue);
+                updateFieldAppearance(countryField, countryValid, getErrorMessage('countryCode', countryValue));
+
+                // Validate phone number
+                const phoneValid = isFieldValid('phone', phoneValue);
+                updateFieldAppearance(phoneField, phoneValid, getErrorMessage('phone', phoneValue));
             } else {
-                // Regular validation for other fields
-                const validation = validateField(fieldName, value);
-                
-                if (!validation.isValid) {
-                    showError(fieldName, validation.message);
-                } else if (value.trim() !== '') {
-                    showSuccess(fieldName);
-                } else {
-                    clearValidation(fieldName);
-                }
+                // Regular field validation
+                const valid = isFieldValid(fieldName, value);
+                const errorMessage = valid ? '' : getErrorMessage(fieldName, value);
+                updateFieldAppearance(field, valid, errorMessage);
             }
 
             updateSubmitButton();
@@ -1670,50 +1608,28 @@
         function updateCharacterCount() {
             const issueField = document.getElementById('issue');
             const countElement = document.getElementById('issue-count');
+            if (!issueField || !countElement) return;
+            
             const currentLength = issueField.value.length;
             const maxLength = 1000;
             
             countElement.textContent = `${currentLength}/${maxLength} characters`;
             
-            if (currentLength > maxLength * 0.9) {
-                countElement.classList.add('warning');
-            } else {
-                countElement.classList.remove('warning');
-            }
-            
-            if (currentLength > maxLength) {
-                countElement.classList.add('error');
-            } else {
-                countElement.classList.remove('error');
-            }
+            countElement.classList.toggle('warning', currentLength > maxLength * 0.9);
+            countElement.classList.toggle('error', currentLength > maxLength);
         }
 
         // Update submit button state
         function updateSubmitButton() {
             let isFormValid = true;
             
+            // Check all fields
             Object.keys(validationRules).forEach(fieldName => {
                 const field = document.getElementById(fieldName);
-                if (field) {
-                    const validation = validateField(fieldName, field.value);
-                    if (!validation.isValid) {
-                        isFormValid = false;
-                    }
-                }
-            });
-
-            // Special check for phone fields - both must be filled and phone must be valid
-            const countryCode = document.getElementById('countryCode').value;
-            const phoneNumber = document.getElementById('phone').value;
-            if (!countryCode || !phoneNumber) {
-                isFormValid = false;
-            } else {
-                // Also validate phone number length and format
-                const phoneValidation = validateField('phone', phoneNumber);
-                if (!phoneValidation.isValid) {
+                if (field && !isFieldValid(fieldName, field.value)) {
                     isFormValid = false;
                 }
-            }
+            });
 
             submitBtn.disabled = !isFormValid;
         }
@@ -1809,8 +1725,8 @@
             Object.keys(validationRules).forEach(fieldName => {
                 const field = document.getElementById(fieldName);
                 if (field) {
-                    field.addEventListener('blur', handleFieldValidation);
-                    field.addEventListener('input', handleFieldValidation);
+                    field.addEventListener('blur', validateFieldOnEvent);
+                    field.addEventListener('input', validateFieldOnEvent);
                 }
             });
 
