@@ -1440,7 +1440,7 @@
                         <div class="error-message" id="phone-error"></div>
                     </div>
                     
-                    <button type="submit" class="submit-btn" id="submitBtn">
+                    <button type="button" class="submit-btn" id="submitBtn" onclick="handleFormSubmit(event)">
                         Submit
                         <span class="loading-spinner" id="loadingSpinner"></span>
                     </button>
@@ -1664,7 +1664,7 @@
 
         // Form submission
         async function handleFormSubmit(event) {
-            event.preventDefault();
+            if (event) event.preventDefault();
             
             // Final validation
             let isFormValid = true;
@@ -1672,7 +1672,7 @@
                 const field = document.getElementById(fieldName);
                 if (field) {
                     const validation = isFieldValid(fieldName, field.value);
-                    if (!validation.isValid) {
+                    if (!validation) {
                         isFormValid = false;
                     }
                 }
@@ -1764,10 +1764,7 @@
                 updateCharacterCount();
             }
 
-            // Form submission
-            if (form) {
-                form.addEventListener('submit', handleFormSubmit);
-            }
+            // Form submission handled by onclick
 
             // Initial button state
             updateSubmitButton();
