@@ -1638,6 +1638,20 @@
             countElement.classList.toggle('error', currentLength > maxLength);
         }
 
+        // Clear validation styling from a field
+        function clearValidation(fieldName) {
+            const field = document.getElementById(fieldName);
+            if (field) {
+                field.classList.remove('valid', 'invalid');
+                
+                // Clear error message
+                const errorElement = document.getElementById(fieldName + '-error');
+                if (errorElement) {
+                    errorElement.textContent = '';
+                }
+            }
+        }
+
         // Update submit button state
         function updateSubmitButton() {
             let isFormValid = true;
