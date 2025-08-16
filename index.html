@@ -893,6 +893,11 @@
             opacity: 0.6;
         }
 
+        .submit-btn:not(:disabled) {
+            background: linear-gradient(45deg, #ffc3ac, #8fc7ba);
+            cursor: pointer;
+        }
+
         .loading-spinner {
             display: none;
             width: 16px;
@@ -1608,14 +1613,52 @@
             const fieldName = field.name;
             const value = field.value;
 
-            const validation = validateField(fieldName, value);
-            
-            if (!validation.isValid) {
-                showError(fieldName, validation.message);
-            } else if (value.trim() !== '') {
-                showSuccess(fieldName);
+            // Special handling for phone fields - both country code and phone number must be filled
+            if (fieldName === 'countryCode' || fieldName === 'phone') {
+                const countryCode = document.getElementById('countryCode').value;
+                const phoneNumber = document.getElementById('phone').value;
+                
+                if (fieldName === 'countryCode') {
+                    const validation = validateField(fieldName, value);
+                    if (!validation.isValid) {
+                        showError(fieldName, validation.message);
+                    } else if (value.trim() !== '' && phoneNumber.trim() !== '') {
+                        showSuccess(fieldName);
+                        // Also validate phone field if both are filled
+                        const phoneValidation = validateField('phone', phoneNumber);
+                        if (phoneValidation.isValid) {
+                            showSuccess('phone');
+                        }
+                    } else if (value.trim() !== '') {
+                        clearValidation(fieldName);
+                    } else {
+                        clearValidation(fieldName);
+                    }
+                } else if (fieldName === 'phone') {
+                    const validation = validateField(fieldName, value);
+                    if (!validation.isValid) {
+                        showError(fieldName, validation.message);
+                    } else if (value.trim() !== '' && countryCode.trim() !== '') {
+                        showSuccess(fieldName);
+                        // Also show success for country code if both are filled
+                        showSuccess('countryCode');
+                    } else if (value.trim() !== '') {
+                        clearValidation(fieldName);
+                    } else {
+                        clearValidation(fieldName);
+                    }
+                }
             } else {
-                clearValidation(fieldName);
+                // Regular validation for other fields
+                const validation = validateField(fieldName, value);
+                
+                if (!validation.isValid) {
+                    showError(fieldName, validation.message);
+                } else if (value.trim() !== '') {
+                    showSuccess(fieldName);
+                } else {
+                    clearValidation(fieldName);
+                }
             }
 
             updateSubmitButton();
@@ -1656,6 +1699,13 @@
                     }
                 }
             });
+
+            // Special check for phone fields - both must be filled
+            const countryCode = document.getElementById('countryCode').value;
+            const phoneNumber = document.getElementById('phone').value;
+            if (!countryCode || !phoneNumber) {
+                isFormValid = false;
+            }
 
             submitBtn.disabled = !isFormValid;
         }
