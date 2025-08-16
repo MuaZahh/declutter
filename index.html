@@ -1006,15 +1006,15 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 50%;
             cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 1;
+            visibility: visible;
             transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1000;
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #e0e0e0;
+            border: 3px solid #8fc7ba;
         }
 
         .scroll-to-top.visible {
@@ -1482,9 +1482,15 @@
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
                 
+                console.log('Button element:', scrollToTopBtn);
+                console.log('About section:', aboutSection);
+                console.log('Scroll top:', scrollTop);
+                
                 if (aboutSection) {
                     const aboutTop = aboutSection.offsetTop;
                     const reachedAbout = scrollTop >= aboutTop - 100; // Show 100px before about section
+                    
+                    console.log('About top:', aboutTop, 'Reached about:', reachedAbout);
                     
                     if (reachedAbout) {
                         scrollToTopBtn.classList.add('visible');
@@ -1495,6 +1501,7 @@
                         const totalScrollDistance = documentHeight - (aboutTop - 100);
                         chargeProgress = Math.min((scrollFromAbout / totalScrollDistance) * 100, 100);
                         
+                        console.log('Charge progress:', chargeProgress);
                         scrollToTopBtn.style.setProperty('--charge-progress', chargeProgress + '%');
                         
                         // Trigger charged animation when reaching end of page
