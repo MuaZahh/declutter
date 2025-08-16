@@ -1006,15 +1006,15 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 50%;
             cursor: pointer;
-            opacity: 1;
-            visibility: visible;
+            opacity: 0;
+            visibility: hidden;
             transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 3px solid #ff6b6b;
+            border: 3px solid #8fc7ba;
         }
 
         .scroll-to-top.visible {
@@ -1483,25 +1483,16 @@
                 
                 if (aboutSection) {
                     const aboutTop = aboutSection.offsetTop;
-                    const reachedAbout = scrollTop >= aboutTop - 200; // Show 200px before about section
+                    const reachedAbout = scrollTop >= aboutTop - 100; // Show when reaching about section
                     
                     if (reachedAbout) {
-                        hasShownButton = true;
-                    }
-                    
-                    if (hasShownButton) {
-                        // Keep button visible and positioned correctly
-                        scrollToTopBtn.style.position = 'fixed';
-                        scrollToTopBtn.style.bottom = '2rem';
-                        scrollToTopBtn.style.right = '2rem';
-                        scrollToTopBtn.style.opacity = '1';
-                        scrollToTopBtn.style.visibility = 'visible';
+                        // Show button and start charging
                         scrollToTopBtn.classList.add('visible');
                         scrollToTopBtn.classList.add('charging');
                         
                         // Calculate charge progress from about section to end of page
-                        const scrollFromAbout = Math.max(0, scrollTop - (aboutTop - 200));
-                        const totalScrollDistance = documentHeight - (aboutTop - 200);
+                        const scrollFromAbout = Math.max(0, scrollTop - (aboutTop - 100));
+                        const totalScrollDistance = documentHeight - (aboutTop - 100);
                         chargeProgress = Math.min((scrollFromAbout / totalScrollDistance) * 100, 100);
                         
                         scrollToTopBtn.style.setProperty('--charge-progress', chargeProgress + '%');
@@ -1516,10 +1507,9 @@
                             }
                         }
                     } else {
-                        // Only hide if we haven't shown the button yet
-                        scrollToTopBtn.style.opacity = '0';
-                        scrollToTopBtn.style.visibility = 'hidden';
+                        // Hide button if not at about section yet
                         scrollToTopBtn.classList.remove('visible', 'charging', 'charged');
+                        scrollToTopBtn.style.setProperty('--charge-progress', '0%');
                     }
                 }
             }
