@@ -1475,6 +1475,7 @@
             const chargingBorder = scrollToTopBtn.querySelector('.charging-border');
             let isCharging = false;
             let chargeProgress = 0;
+            let hasShownButton = false;
             
             function updateScrollButton() {
                 const aboutSection = document.querySelector('.approach-section');
@@ -1482,12 +1483,17 @@
                 const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
                 const scrollPercentage = (scrollTop / documentHeight) * 100;
                 
-                // Show button when reaching about section
+                // Show button when reaching about section and keep it visible afterwards
                 if (aboutSection) {
                     const aboutTop = aboutSection.offsetTop;
-                    const showButton = scrollTop >= aboutTop - 100; // Show 100px before about section
+                    const reachedAbout = scrollTop >= aboutTop - 100; // Show 100px before about section
                     
-                    if (showButton) {
+                    // Once button has been shown, keep it visible
+                    if (reachedAbout) {
+                        hasShownButton = true;
+                    }
+                    
+                    if (hasShownButton) {
                         scrollToTopBtn.classList.add('visible');
                         
                         // Start charging when 50% scrolled
