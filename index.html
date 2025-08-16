@@ -1051,7 +1051,6 @@
             border: 2px solid transparent;
             background: rgba(255, 255, 255, 0.95) padding-box;
             background-clip: padding-box;
-            position: relative;
         }
 
         .scroll-to-top.charging::before {
@@ -1491,7 +1490,10 @@
                     }
                     
                     if (hasShownButton) {
-                        // Keep button visible - don't let it hide once shown
+                        // Keep button visible and positioned correctly
+                        scrollToTopBtn.style.position = 'fixed';
+                        scrollToTopBtn.style.bottom = '2rem';
+                        scrollToTopBtn.style.right = '2rem';
                         scrollToTopBtn.style.opacity = '1';
                         scrollToTopBtn.style.visibility = 'visible';
                         scrollToTopBtn.classList.add('visible');
