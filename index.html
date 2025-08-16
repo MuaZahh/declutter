@@ -1006,14 +1006,15 @@
             background: rgba(255, 255, 255, 0.95);
             border-radius: 50%;
             cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
+            opacity: 1;
+            visibility: visible;
             transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid #8fc7ba;
         }
 
         .scroll-to-top.visible {
@@ -1452,66 +1453,82 @@
         });
 
         // Scroll to Top Button Functionality
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        const chargingBorder = scrollToTopBtn.querySelector('.charging-border');
-        let isCharging = false;
-        let chargeProgress = 0;
-        
-        function updateScrollButton() {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercentage = (scrollTop / documentHeight) * 100;
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
             
-            // Show button when scrolled 20% down
-            if (scrollPercentage > 20) {
-                scrollToTopBtn.classList.add('visible');
+            if (!scrollToTopBtn) {
+                console.error('Scroll to top button not found');
+                return;
+            }
+            
+            const chargingBorder = scrollToTopBtn.querySelector('.charging-border');
+            let isCharging = false;
+            let chargeProgress = 0;
+            
+            function updateScrollButton() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercentage = (scrollTop / documentHeight) * 100;
                 
-                // Start charging when 50% scrolled
-                if (scrollPercentage > 50) {
-                    if (!isCharging) {
-                        isCharging = true;
-                        scrollToTopBtn.classList.add('charging');
-                    }
+                console.log('Scroll percentage:', scrollPercentage); // Debug log
+                
+                // Show button when scrolled 20% down
+                if (scrollPercentage > 20) {
+                    scrollToTopBtn.classList.add('visible');
                     
-                    // Calculate charge progress (50% scroll = 0%, 100% scroll = 100%)
-                    chargeProgress = Math.min(((scrollPercentage - 50) / 50) * 100, 100);
-                    chargingBorder.style.setProperty('--charge-progress', chargeProgress + '%');
-                    
-                    // Trigger charged animation when fully charged
-                    if (chargeProgress >= 100) {
-                        scrollToTopBtn.classList.add('charged');
-                        setTimeout(() => {
-                            scrollToTopBtn.classList.remove('charged');
-                        }, 600);
+                    // Start charging when 50% scrolled
+                    if (scrollPercentage > 50) {
+                        if (!isCharging) {
+                            isCharging = true;
+                            scrollToTopBtn.classList.add('charging');
+                        }
+                        
+                        // Calculate charge progress (50% scroll = 0%, 100% scroll = 100%)
+                        chargeProgress = Math.min(((scrollPercentage - 50) / 50) * 100, 100);
+                        if (chargingBorder) {
+                            chargingBorder.style.setProperty('--charge-progress', chargeProgress + '%');
+                        }
+                        
+                        // Trigger charged animation when fully charged
+                        if (chargeProgress >= 100) {
+                            scrollToTopBtn.classList.add('charged');
+                            setTimeout(() => {
+                                scrollToTopBtn.classList.remove('charged');
+                            }, 600);
+                        }
+                    } else {
+                        isCharging = false;
+                        scrollToTopBtn.classList.remove('charging');
+                        chargeProgress = 0;
+                        if (chargingBorder) {
+                            chargingBorder.style.setProperty('--charge-progress', '0%');
+                        }
                     }
                 } else {
+                    scrollToTopBtn.classList.remove('visible', 'charging', 'charged');
                     isCharging = false;
-                    scrollToTopBtn.classList.remove('charging');
                     chargeProgress = 0;
-                    chargingBorder.style.setProperty('--charge-progress', '0%');
+                    if (chargingBorder) {
+                        chargingBorder.style.setProperty('--charge-progress', '0%');
+                    }
                 }
-            } else {
-                scrollToTopBtn.classList.remove('visible', 'charging', 'charged');
-                isCharging = false;
-                chargeProgress = 0;
-                chargingBorder.style.setProperty('--charge-progress', '0%');
             }
-        }
-        
-        // Smooth scroll to top function
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-        
-        // Event listeners
-        window.addEventListener('scroll', updateScrollButton);
-        scrollToTopBtn.addEventListener('click', scrollToTop);
-        
-        // Initial call
-        updateScrollButton();
+            
+            // Smooth scroll to top function
+            function scrollToTop() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Event listeners
+            window.addEventListener('scroll', updateScrollButton);
+            scrollToTopBtn.addEventListener('click', scrollToTop);
+            
+            // Initial call
+            updateScrollButton();
+        });
     </script>
 
     <!-- Scroll to Top Button -->
