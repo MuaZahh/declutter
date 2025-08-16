@@ -838,7 +838,26 @@
         .form-group input.valid,
         .form-group textarea.valid,
         .form-group select.valid {
-            border-color: #28a745;
+            border-color: #28a745 !important;
+            background-color: #ffffff !important;
+        }
+
+        /* Override browser autocomplete styling */
+        .form-group input:-webkit-autofill,
+        .form-group input:-webkit-autofill:hover,
+        .form-group input:-webkit-autofill:focus,
+        .form-group input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            box-shadow: 0 0 0 30px white inset !important;
+        }
+
+        .form-group input.valid:-webkit-autofill,
+        .form-group input.valid:-webkit-autofill:hover,
+        .form-group input.valid:-webkit-autofill:focus,
+        .form-group input.valid:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            box-shadow: 0 0 0 30px white inset !important;
+            border-color: #28a745 !important;
         }
 
         .form-group input.invalid,
