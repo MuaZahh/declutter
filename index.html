@@ -1481,48 +1481,33 @@
                 const aboutSection = document.querySelector('.approach-section');
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const scrollPercentage = (scrollTop / documentHeight) * 100;
                 
-                // Show button when reaching about section and keep it visible afterwards
                 if (aboutSection) {
                     const aboutTop = aboutSection.offsetTop;
                     const reachedAbout = scrollTop >= aboutTop - 100; // Show 100px before about section
                     
-                    // Once button has been shown, keep it visible
                     if (reachedAbout) {
-                        hasShownButton = true;
-                    }
-                    
-                    if (hasShownButton) {
                         scrollToTopBtn.classList.add('visible');
+                        scrollToTopBtn.classList.add('charging');
                         
-                        // Start charging when 50% scrolled
-                        if (scrollPercentage > 50) {
-                            if (!isCharging) {
-                                isCharging = true;
-                                scrollToTopBtn.classList.add('charging');
-                            }
-                            
-                            // Calculate charge progress (50% scroll = 0%, 100% scroll = 100%)
-                            chargeProgress = Math.min(((scrollPercentage - 50) / 50) * 100, 100);
-                            scrollToTopBtn.style.setProperty('--charge-progress', chargeProgress + '%');
-                            
-                            // Trigger charged animation when fully charged
-                            if (chargeProgress >= 100) {
+                        // Calculate charge progress from about section to end of page
+                        const scrollFromAbout = scrollTop - (aboutTop - 100);
+                        const totalScrollDistance = documentHeight - (aboutTop - 100);
+                        chargeProgress = Math.min((scrollFromAbout / totalScrollDistance) * 100, 100);
+                        
+                        scrollToTopBtn.style.setProperty('--charge-progress', chargeProgress + '%');
+                        
+                        // Trigger charged animation when reaching end of page
+                        if (chargeProgress >= 100) {
+                            if (!scrollToTopBtn.classList.contains('charged')) {
                                 scrollToTopBtn.classList.add('charged');
                                 setTimeout(() => {
                                     scrollToTopBtn.classList.remove('charged');
                                 }, 600);
                             }
-                        } else {
-                            isCharging = false;
-                            scrollToTopBtn.classList.remove('charging');
-                            chargeProgress = 0;
-                            scrollToTopBtn.style.setProperty('--charge-progress', '0%');
                         }
                     } else {
                         scrollToTopBtn.classList.remove('visible', 'charging', 'charged');
-                        isCharging = false;
                         chargeProgress = 0;
                         scrollToTopBtn.style.setProperty('--charge-progress', '0%');
                     }
