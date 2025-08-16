@@ -1702,11 +1702,17 @@
                 }
             });
 
-            // Special check for phone fields - both must be filled
+            // Special check for phone fields - both must be filled and phone must be valid
             const countryCode = document.getElementById('countryCode').value;
             const phoneNumber = document.getElementById('phone').value;
             if (!countryCode || !phoneNumber) {
                 isFormValid = false;
+            } else {
+                // Also validate phone number length and format
+                const phoneValidation = validateField('phone', phoneNumber);
+                if (!phoneValidation.isValid) {
+                    isFormValid = false;
+                }
             }
 
             submitBtn.disabled = !isFormValid;
