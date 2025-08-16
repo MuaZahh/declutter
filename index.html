@@ -1441,7 +1441,7 @@
                     </div>
                     
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        Send Message
+                        Submit
                         <span class="loading-spinner" id="loadingSpinner"></span>
                     </button>
                 </form>
@@ -1641,14 +1641,23 @@
         // Update submit button state
         function updateSubmitButton() {
             let isFormValid = true;
+            const invalidFields = [];
             
             // Check all fields
             Object.keys(validationRules).forEach(fieldName => {
                 const field = document.getElementById(fieldName);
                 if (field && !isFieldValid(fieldName, field.value)) {
                     isFormValid = false;
+                    invalidFields.push(fieldName + ': ' + field.value);
                 }
             });
+
+            // Debug logging
+            if (!isFormValid) {
+                console.log('Form invalid. Invalid fields:', invalidFields);
+            } else {
+                console.log('Form is valid! Submit button should be enabled.');
+            }
 
             submitBtn.disabled = !isFormValid;
         }
