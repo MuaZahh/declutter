@@ -1671,7 +1671,7 @@
             Object.keys(validationRules).forEach(fieldName => {
                 const field = document.getElementById(fieldName);
                 if (field) {
-                    const validation = validateField(fieldName, field.value);
+                    const validation = isFieldValid(fieldName, field.value);
                     if (!validation.isValid) {
                         showError(fieldName, validation.message);
                         isFormValid = false;
