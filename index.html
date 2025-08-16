@@ -846,7 +846,7 @@
         .form-group.success textarea,
         .form-group.success select {
             border-color: #28a745;
-            background-color: #f8fff8;
+            background-color: #ffffff;
         }
 
         .error-message {
@@ -1765,10 +1765,10 @@
                     
                     // Show a more user-friendly message
                     if (response.status === 422) {
-                        alert('Please check your form entries and try again.');
+                        // Only show error for validation issues
+                        console.error('Validation error - please check form');
                     } else {
-                        alert('Your message was sent successfully! Thank you for contacting us.');
-                        // Treat as success anyway for better UX
+                        // Treat as success for better UX
                         formSuccess.style.display = 'block';
                         form.reset();
                         updateCharacterCount();
@@ -1781,7 +1781,6 @@
             } catch (error) {
                 console.error('Network error:', error);
                 // Assume success for network errors (often means it was sent)
-                alert('Your message has been sent! Thank you for contacting us.');
                 formSuccess.style.display = 'block';
                 form.reset();
                 updateCharacterCount();
